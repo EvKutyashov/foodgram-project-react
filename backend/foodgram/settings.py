@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', default='string_from_.env')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-#(os.getenv('DEBUG', 'False') == 'True')
+# (os.getenv('DEBUG', 'False') == 'True')
 
 ALLOWED_HOSTS = '127.0.0.1', '51.250.96.144', 'localhost', 'foodgrammax.sytes.net'
 
