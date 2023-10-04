@@ -32,12 +32,10 @@ services:
     env_file: .env
     image: evgeniy500/foodgram_gateway
     volumes:
-      - ./nginx.conf:/etc/nginx/templates/default.conf.template
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/:/usr/share/nginx/html/api/docs/
-      - static:/var/html/static/
-      - media:/var/html/media  
+      - static:/staticfiles/
+      - media:/media/
     ports:
       - "9090:80"
     depends_on:
       - backend
+      - frontend
