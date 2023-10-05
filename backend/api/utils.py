@@ -4,10 +4,10 @@ from users.models import Subscription
 
 
 def create_object(request, pk, serializer_in, serializer_out, model):
-    '''
+    """
     Вспомогательные функции для создания связей
     в моделях Favorite, ShoppingCart, Subscription.
-    '''
+    """
     user = request.user.id
     obj = get_object_or_404(model, id=pk)
 
@@ -26,10 +26,10 @@ def create_object(request, pk, serializer_in, serializer_out, model):
 
 
 def delete_object(request, pk, model_object, model_for_delete_object):
-    '''
+    """
     Вспомогательные функции для удаления связей
     в моделях Favorite, ShoppingCart, Subscription.
-    '''
+    """
     user = request.user
 
     obj_recipe = get_object_or_404(model_object, id=pk)

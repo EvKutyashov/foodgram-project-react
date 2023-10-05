@@ -22,15 +22,16 @@ from api.utils import create_object, delete_object
 from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 from users.models import Subscription
 
+
 User = get_user_model()
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    '''
+    """
     Вьюсет для работы с рецептами.
     Позволяет добавять/удалять рецепты в "Избранное"
     и в "Корзину покупок".
-    '''
+    """
     pagination_class = PageNumberPagination
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
     filter_backends = (DjangoFilterBackend,)
@@ -52,11 +53,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post', 'delete'])
     def favorite(self, request, pk):
-        '''
+        """
         Метод "favorite" позволяет текущему пользователю
         в зависимости от метода запроса добавить/удалить
         рецепт в список "Избранное".
-        '''
+        """
         if request.method == 'POST':
             serializer = create_object(
                 request,
@@ -74,11 +75,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post', 'delete'])
     def shopping_cart(self, request, pk):
-        '''
+        """
         Метод "shopping_cart" позволяет текущему пользователю
         в зависимости от запроса добавить/удалить ингредиенты
         рецепта в "Корзину покупок".
-        '''
+        """
         if request.method == 'POST':
             serializer = create_object(
                 request,
@@ -97,10 +98,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'],
             permission_classes=(IsAuthenticated,))
     def download_shopping_cart(self, request):
-        '''
+        """
         Метод "download_shopping_cart" позволяет скачать файл
         со списком покупок.
-        '''
+        """
         ingredient_lst = ShoppingCart.objects.filter(
             user=request.user
         ).values_list(
@@ -116,20 +117,20 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         response = HttpResponse('\n'.join(shopping_list),
                                 content_type='text/plain')
-        response['Content-Disposition'] = \
-            'attachment; filename="shopping_list.txt"'
+        response['Content-Disposition'] = (
+            'attachment; filename="shopping_list.txt"')
         return response
 
 
 class TagViewSet(viewsets.ModelViewSet):
-    '''Вьюсет для работы с тегами'''
+    """Вьюсет для работы с тегами"""
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
-    '''Вьюсет для работы с ингредиентами'''
+    """Вьюсет для работы с ингредиентами"""
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     pagination_class = None
@@ -143,11 +144,11 @@ class IngredientViewSet(viewsets.ModelViewSet):
 
 
 class CustomUserViewSet(UserViewSet):
-    '''
+    """
     Вьюсет для работы с пользователями.
     Позволяет подписаться/отписаться текущему пользователю на других авторов.
     И позволяет получать список авторов с рецептами на которых он подписан.
-    '''
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -170,11 +171,11 @@ class CustomUserViewSet(UserViewSet):
 
     @action(detail=False, methods=['get'])
     def subscriptions(self, request):
-        '''
+        """
         Метод "subscriptions" возвращает пользователей,
         на которых подписан текущий пользователь.
         В выдачу добавляются рецепты.
-        '''
+        """
         user = request.user
         authors = User.objects.filter(subscribing__user=user)
 

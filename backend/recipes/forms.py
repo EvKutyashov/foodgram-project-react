@@ -3,11 +3,11 @@ from django.forms.models import BaseInlineFormSet
 
 
 class NotAllowEmtyForm(BaseInlineFormSet):
-    '''
+    """
     Класс "NotAllowEmtyForm", проверяет,
     если форма останеется пустой после редактирования
     будет брошено исключение и не позволит сохранить пустой рецепт.
-    '''
+    """
     def clean(self):
         super(NotAllowEmtyForm, self).clean()
 
