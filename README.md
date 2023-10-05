@@ -34,3 +34,59 @@
 * [pytest-pythonpath 0.7.3](https://pypi.org/project/pytest-pythonpath/)
 * [pytest 6.2.4](https://pypi.org/project/pytest/)
 * [python-dotenv 1.0.0](https://pypi.org/project/python-dotenv/)
+
+## Локальный запуск проекта
+
+Клонировать репозиторий и перейти в него в командной строке:
+
+```bash
+git clone https://github.com/EvKutyashov/foodgram-project-react
+cd foodgram-project-react
+```
+
+Cоздать и активировать виртуальное окружение, установить зависимости:
+
+```bash
+python -m venv venv && \ 
+    source venv/scripts/activate && \
+    python -m pip install --upgrade pip && \
+    pip install -r backend/requirements.txt
+```
+
+Установите [docker compose](https://www.docker.com/) на свой компьютер.
+
+Запустите проект через docker-compose:
+
+```bash
+docker compose -f docker-compose.production.yml up --build -d
+```
+
+Выполнить миграции:
+
+```bash
+docker compose -f docker-compose.production.yml exec backend python manage.py makemigrations
+docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+```
+
+Соберите статику и скопируйте ее:
+
+```bash
+docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic  && \
+docker compose -f docker-compose.production.yml exec backend cp -r /app/static_backend/. /backend_static/
+```
+
+## .env
+
+В корне проекта создайте файл .env и пропишите в него свои данные.
+
+Пример:
+
+```apache
+SECRET_KEY = 'my_secret_key'
+POSTGRES_DB=django_db
+POSTGRES_USER=django_user
+POSTGRES_PASSWORD=django_password
+DB_HOST=db
+DB_PORT=5432
+```
+## Автор Кутяшов Евгений.
