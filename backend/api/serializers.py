@@ -177,14 +177,16 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
         )
 
     def create_ingredients(self, ingredients, recipe):
-        """Метод создания ингредиентов с количеством ингредиентов."""
+        ingredient_list = []
         for ingredient in ingredients:
-            ingredients, status = IngredientRecipes.objects.bulk_create([
-                IngredientRecipes(recipe=recipe),
+            ingredient_list.append(
                 IngredientRecipes(
-                    ingredient=Ingredient.objects.get(id=ingredient['id'])),
-                IngredientRecipes(amount=ingredient['amount']),
-            ])
+                    ingredient=Ingredient.objects.get(id=ingredient['id']),
+                    amount=ingredient['amount'],
+                    recipe=recipe,
+                )
+            )
+        IngredientRecipes.objects.bulk_create(ingredient_list)
 
     def create(self, validated_data):
         tags = validated_data.pop('tags')
