@@ -179,7 +179,7 @@ class RecipeWriteSerializer(serializers.ModelSerializer):
     def create_ingredients(self, ingredients, recipe):
         """Метод создания ингредиентов с количеством ингредиентов."""
         for ingredient in ingredients:
-            ingredients, status = IngredientRecipes.objects.get_or_create(
+            ingredients, status = IngredientRecipes.objects.bulk_create(
                 recipe=recipe,
                 ingredient=Ingredient.objects.get(id=ingredient['id']),
                 amount=ingredient['amount']
