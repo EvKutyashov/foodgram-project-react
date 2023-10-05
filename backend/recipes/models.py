@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from validators import validate_file_size
 
 from users.models import User
 
@@ -69,6 +70,7 @@ class Recipe(models.Model):
     image = models.ImageField(
         'Изображение',
         upload_to='recipes/images',
+        validators=[validate_file_size]
     )
     text = models.TextField(
         'Описание',
