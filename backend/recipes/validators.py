@@ -7,5 +7,3 @@ def validate_file_size(value):
     if filesize > 1048576:
         raise ValidationError(
             "Вы не можете загрузить файл размером больше 1Mб")
-    else:
-        return value
